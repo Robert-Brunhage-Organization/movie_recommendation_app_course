@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:movie_recommendation_app_course/features/movie_flow/landing/landing_screen.dart';
+
 class MovieFlow extends StatefulWidget {
   const MovieFlow({Key? key}) : super(key: key);
 
@@ -36,7 +38,7 @@ class _MovieFlowState extends State<MovieFlow> {
       controller: pageController,
       physics: const NeverScrollableScrollPhysics(),
       children: [
-        Scaffold(body: Container(color: Colors.red)),
+        LandingScreen(nextPage: nextPage, previousPage: previousPage),
         Scaffold(body: Container(color: Colors.green)),
         Scaffold(body: Container(color: Colors.blue)),
         Scaffold(body: Container(color: Colors.yellow)),
