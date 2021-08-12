@@ -29,6 +29,14 @@ class CustomTheme {
         elevation: 0,
         color: Palette.almostBlack,
       ),
+      sliderTheme: SliderThemeData(
+        activeTrackColor: Colors.white,
+        inactiveTrackColor: Colors.grey.shade800,
+        thumbColor: Colors.white,
+        valueIndicatorColor: Palette.red500,
+        inactiveTickMarkColor: Colors.transparent,
+        activeTickMarkColor: Colors.transparent,
+      ),
       textTheme: theme.primaryTextTheme
           .copyWith(
             button: theme.primaryTextTheme.button?.copyWith(
