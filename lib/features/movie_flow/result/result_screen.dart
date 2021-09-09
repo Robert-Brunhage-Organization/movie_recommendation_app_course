@@ -8,12 +8,52 @@ import 'package:movie_recommendation_app_course/core/widgets/primary_button.dart
 import 'package:movie_recommendation_app_course/features/movie_flow/movie_flow_controller.dart';
 import 'package:movie_recommendation_app_course/features/movie_flow/result/movie.dart';
 
+class ResultScreenAnimator extends StatefulWidget {
+  const ResultScreenAnimator({Key? key}) : super(key: key);
+
+  @override
+  _ResultScreenAnimatorState createState() => _ResultScreenAnimatorState();
+}
+
+class _ResultScreenAnimatorState extends State<ResultScreenAnimator> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this,
+    );
+
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ResultScreen(
+      animationController: _controller,
+    );
+  }
+}
+
 class ResultScreen extends ConsumerWidget {
   static route({bool fullscreenDialog = true}) => MaterialPageRoute(
-        builder: (context) => const ResultScreen(),
+        builder: (context) => const ResultScreenAnimator(),
         fullscreenDialog: fullscreenDialog,
       );
-  const ResultScreen({Key? key}) : super(key: key);
+  const ResultScreen({
+    Key? key,
+    required this.animationController,
+  }) : super(key: key);
+
+  final AnimationController animationController;
 
   final double movieHeight = 150;
 
