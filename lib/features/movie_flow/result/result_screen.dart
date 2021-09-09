@@ -48,12 +48,33 @@ class ResultScreen extends ConsumerWidget {
         builder: (context) => const ResultScreenAnimator(),
         fullscreenDialog: fullscreenDialog,
       );
-  const ResultScreen({
+  ResultScreen({
     Key? key,
     required this.animationController,
-  }) : super(key: key);
+  })  : titleOpacity = Tween<double>(begin: 0, end: 1).animate(
+          CurvedAnimation(parent: animationController, curve: const Interval(0, 0.3)),
+        ),
+        genreOpacity = Tween<double>(begin: 0, end: 1).animate(
+          CurvedAnimation(parent: animationController, curve: const Interval(0.3, 0.4)),
+        ),
+        ratingOpacity = Tween<double>(begin: 0, end: 1).animate(
+          CurvedAnimation(parent: animationController, curve: const Interval(0.4, 0.6)),
+        ),
+        descriptionOpacity = Tween<double>(begin: 0, end: 1).animate(
+          CurvedAnimation(parent: animationController, curve: const Interval(0.6, 0.8)),
+        ),
+        buttonOpacity = Tween<double>(begin: 0, end: 1).animate(
+          CurvedAnimation(parent: animationController, curve: const Interval(0.8, 1)),
+        ),
+        super(key: key);
 
   final AnimationController animationController;
+
+  final Animation<double> titleOpacity;
+  final Animation<double> genreOpacity;
+  final Animation<double> ratingOpacity;
+  final Animation<double> descriptionOpacity;
+  final Animation<double> buttonOpacity;
 
   final double movieHeight = 150;
 
@@ -78,6 +99,9 @@ class ResultScreen extends ConsumerWidget {
                               child: MovieImageDetails(
                                 movie: movie,
                                 movieHeight: movieHeight,
+                                titleOpacity: titleOpacity,
+                                ratingOpacity: ratingOpacity,
+                                genreOpacity: genreOpacity,
                               ),
                             ),
                           ],
@@ -85,17 +109,23 @@ class ResultScreen extends ConsumerWidget {
                         SizedBox(height: movieHeight / 2),
                         Padding(
                           padding: const EdgeInsets.all(12.0),
-                          child: Text(
-                            movie.overview,
-                            style: Theme.of(context).textTheme.bodyText2,
+                          child: FadeTransition(
+                            opacity: descriptionOpacity,
+                            child: Text(
+                              movie.overview,
+                              style: Theme.of(context).textTheme.bodyText2,
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  PrimaryButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    text: 'Find another movie',
+                  FadeTransition(
+                    opacity: buttonOpacity,
+                    child: PrimaryButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      text: 'Find another movie',
+                    ),
                   ),
                   const SizedBox(height: kMediumSpacing),
                 ],
@@ -154,11 +184,17 @@ class MovieImageDetails extends ConsumerWidget {
     Key? key,
     required this.movie,
     required this.movieHeight,
+    required this.titleOpacity,
+    required this.genreOpacity,
+    required this.ratingOpacity,
   }) : super(key: key);
 
   final Movie movie;
-
   final double movieHeight;
+
+  final Animation<double> titleOpacity;
+  final Animation<double> genreOpacity;
+  final Animation<double> ratingOpacity;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -179,28 +215,37 @@ class MovieImageDetails extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  movie.title,
-                  style: theme.textTheme.headline6,
+                FadeTransition(
+                  opacity: titleOpacity,
+                  child: Text(
+                    movie.title,
+                    style: theme.textTheme.headline6,
+                  ),
                 ),
-                Text(
-                  movie.genresCommaSeparated,
-                  style: theme.textTheme.bodyText2,
+                FadeTransition(
+                  opacity: genreOpacity,
+                  child: Text(
+                    movie.genresCommaSeparated,
+                    style: theme.textTheme.bodyText2,
+                  ),
                 ),
-                Row(
-                  children: [
-                    Text(
-                      movie.voteAverage.toString(),
-                      style: theme.textTheme.bodyText2?.copyWith(
-                        color: theme.textTheme.bodyText2?.color?.withOpacity(0.62),
+                FadeTransition(
+                  opacity: ratingOpacity,
+                  child: Row(
+                    children: [
+                      Text(
+                        movie.voteAverage.toString(),
+                        style: theme.textTheme.bodyText2?.copyWith(
+                          color: theme.textTheme.bodyText2?.color?.withOpacity(0.62),
+                        ),
                       ),
-                    ),
-                    const Icon(
-                      Icons.star_rounded,
-                      size: 20,
-                      color: Colors.amber,
-                    ),
-                  ],
+                      const Icon(
+                        Icons.star_rounded,
+                        size: 20,
+                        color: Colors.amber,
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),
