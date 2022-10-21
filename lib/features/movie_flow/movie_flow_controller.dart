@@ -32,7 +32,9 @@ class MovieFlowController extends StateNotifier<MovieFlowState> {
 
     result.when(
       (error) {
-        state = state.copyWith(genres: AsyncValue.error(error));
+        state = state.copyWith(
+          genres: AsyncValue.error(error, error.stackTrace),
+        );
       },
       (genres) {
         final updatedGenres = AsyncValue.data(genres);
@@ -52,7 +54,9 @@ class MovieFlowController extends StateNotifier<MovieFlowState> {
 
     result.when(
       (error) {
-        state = state.copyWith(movie: AsyncValue.error(error));
+        state = state.copyWith(
+          movie: AsyncValue.error(error, error.stackTrace),
+        );
       },
       (movie) {
         state = state.copyWith(movie: AsyncValue.data(movie));

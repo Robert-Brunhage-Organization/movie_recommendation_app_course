@@ -33,6 +33,10 @@ class GenreScreen extends ConsumerWidget {
             Expanded(
               child: ref.watch(movieFlowControllerProvider).genres.when(
                     data: (genres) {
+                      if (genres.isEmpty) {
+                        return const FailureBody(message: 'No movies found');
+                      }
+
                       return ListView.separated(
                         padding: const EdgeInsets.symmetric(vertical: kListItemSpacing),
                         itemCount: genres.length,

@@ -36,16 +36,18 @@ class TMDBMovieRepository implements MovieRepository {
       final genres = results.map((e) => GenreEntity.fromMap(e)).toList();
 
       return genres;
-    } on DioError catch (e) {
+    } on DioError catch (e, s) {
       if (e.error is SocketException) {
         throw Failure(
           message: 'No internet connection',
+          stackTrace: s,
           exception: e,
         );
       }
 
       throw Failure(
         message: e.response?.statusMessage ?? 'Something went wrong',
+        stackTrace: s,
         code: e.response?.statusCode,
       );
     }
@@ -70,16 +72,18 @@ class TMDBMovieRepository implements MovieRepository {
       final results = List<Map<String, dynamic>>.from(response.data['results']);
       final movies = results.map((e) => MovieEntity.fromMap(e)).toList();
       return movies;
-    } on DioError catch (e) {
+    } on DioError catch (e, s) {
       if (e.error is SocketException) {
         throw Failure(
           message: 'No internet connection',
           exception: e,
+          stackTrace: s,
         );
       }
 
       throw Failure(
         message: e.response?.statusMessage ?? 'Something went wrong',
+        stackTrace: s,
         code: e.response?.statusCode,
       );
     }

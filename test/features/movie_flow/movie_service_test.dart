@@ -12,11 +12,15 @@ import 'package:movie_recommendation_app_course/features/movie_flow/result/movie
 
 class MockMovieRepository extends Mock implements MovieRepository {}
 
+class MockStackTrace extends Mock implements StackTrace {}
+
 void main() {
   late MovieRepository mockedMovieRepository;
+  late MockStackTrace mockedStackTrace;
 
   setUp(() {
     mockedMovieRepository = MockMovieRepository();
+    mockedStackTrace = MockStackTrace();
   });
 
   test('Given successful call When getting GenreEntities Then map to correct genres', () async {
@@ -33,7 +37,7 @@ void main() {
 
   test('Given failed call When getting GenreEntities Then return failure', () async {
     when(() => mockedMovieRepository.getMovieGenres()).thenThrow(
-      Failure(message: 'No internet', exception: const SocketException('')),
+      Failure(message: 'No internet', exception: const SocketException(''), stackTrace: mockedStackTrace),
     );
 
     final movieService = TMDBMovieService(mockedMovieRepository);
@@ -79,7 +83,7 @@ void main() {
     const genre = Genre(name: 'Animation', id: 1, isSelected: true);
 
     when(() => mockedMovieRepository.getRecommendedMovies(any(), any(), any())).thenThrow(
-      Failure(message: 'message', exception: const SocketException('')),
+      Failure(message: 'message', exception: const SocketException(''), stackTrace: mockedStackTrace),
     );
 
     final movieService = TMDBMovieService(mockedMovieRepository);
