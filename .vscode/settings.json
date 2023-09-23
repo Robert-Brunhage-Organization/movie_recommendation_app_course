@@ -1,0 +1,6 @@
+{
+    "yaml.schemas": {
+        "file:///Users/alexandermichels/.vscode/extensions/atlassian.atlascode-3.0.6/resources/schemas/pipelines-schema.json": "bitbucket-pipelines.yml",
+        "https://json.schemastore.org/github-workflow.json": "file:///Users/alexandermichels/Developer/movie_recommendation_app_course/.github/workflows/test.yaml"
+    }
+}
